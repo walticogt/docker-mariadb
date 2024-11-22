@@ -1,0 +1,48 @@
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: tu_contraseña_root
+      MYSQL_DATABASE: tu_base_datos
+      MYSQL_USER: tu_usuario
+      MYSQL_PASSWORD: tu_contraseña_usuario
+    ports:
+      - "3306:3306"
+    networks:
+      app_network:
+        ipv4_address: 172.21.0.2
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+      PMA_USER: tu_usuario
+      PMA_PASSWORD: tu_contraseña_usuario
+    ports:
+      - "8080:80"
+    networks:
+      app_network:
+        ipv4_address: 172.21.0.3
+
+#  slowproxy:
+#  image: shopify/toxiproxy
+#    container_name: slowproxy
+#    ports:
+#      - "8474:8474"  # Puerto para la API de Toxiproxy
+#      - "3307:3307"  # Puerto proxy hacia MariaDB
+#    networks:
+#      app_network:
+#        ipv4_address: 172.21.0.4
+#    depends_on:
+#      - mariadb
+#    command: ["toxiproxy-server"]
+
+networks:
+  app_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16

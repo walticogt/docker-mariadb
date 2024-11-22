@@ -1,0 +1,9 @@
+-- comprobación o conexión al mariadb por consola
+docker run -it --rm --network docker-mariadb_app_network mariadb mariadb -h mariadb -u tu_usuario -p
+
+
+MYSQL_USER: tu_usuario
+MYSQL_PASSWORD: tu_contraseña_usuario
+
+-- entrar al bash
+docker exec -it mariadb /bin/bash
